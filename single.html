@@ -7,7 +7,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Magazine &mdash; Free Fully Responsive HTML5 Bootstrap Template by FREEHTML5.co</title>
+	<title>Greenhouse Gas Giants</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
 	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
@@ -59,64 +59,95 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+
+		google.charts.load('current', {packages: ['corechart', 'line']});
+		google.charts.setOnLoadCallback(drawSheetName);
+
+		function drawSheetName() {
+			var queryString = encodeURIComponent('SELECT A, L, K, J, I WHERE B = \'Chevron\' AND E=\'Natural Gas\' AND D = \'Chevron\'  ORDER BY A');
+			var query = new google.visualization.Query(
+				'https://docs.google.com/spreadsheets/d/1VZD6NYGkTl_GZGo4VSzOeU2mewJD_0KehrIjQ_Y8sJs/gviz/tq?sheet=Sheet1&headers=1&tq=' + queryString);
+			query.send(handleSampleDataQueryResponse);
+		}
+
+		function handleSampleDataQueryResponse(response) {
+
+			if (response.isError()) {
+				alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+				return;
+			}
+			var data = response.getDataTable();
+
+			// basic plot
+			var basic_options = {
+				title: 'Operational Emissions',
+				legend: { position: 'right' },
+				hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}, format: '#'},
+				vAxis: {title: 'Million tonnes of carbon dioxide equivalent (MtCO2e)',  titleTextStyle: {color: '#333'}}
+			};
+			var basic_chart = new google.visualization.LineChart(document.getElementById('basic_div'));
+			basic_chart.draw(data, google.charts.Line.convertOptions(basic_options));
+
+			// plot variation 1: log scale 
+			var basic_log_options = {
+				title: 'Operational Emissions',
+				legend: { position: 'right' },
+				hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}, format: '#'},
+				vAxis: {title: 'Million tonnes of carbon dioxide equivalent (MtCO2e)',  titleTextStyle: {color: '#333'}, logScale: true}
+			};
+			var basic_log_chart = new google.visualization.LineChart(document.getElementById('basic_log_div'));
+			basic_log_chart.draw(data, google.charts.Line.convertOptions(basic_log_options));
+
+			// plot variation 2: stacked area charts
+			var stacked_options = {
+				title: 'Operational Emissions',
+				isStacked: true,
+				hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}, format: '#'},
+				vAxis: {title: 'Million tonnes of carbon dioxide equivalent (MtCO2e)',  titleTextStyle: {color: '#333'}}
+			};
+			var stacked_chart = new google.visualization.AreaChart(document.getElementById('stacked_div'));
+			stacked_chart.draw(data, stacked_options);
+
+			// plot variation 3: sum graph
+			var regression_options = {
+				title: 'Operational Emissions',
+				legend: {position: 'right'},
+				pointSize: 0,
+				trendlines: { 0: {
+								pointsVisible: false,
+								opacity: 1,
+								},
+							  1: {
+								pointsVisible: false,
+								opacity: 1
+								}, 
+							  2: {
+								pointsVisible: false,
+								opacity: 1
+								}, 
+							  3: {
+								pointsVisible: false,
+								opacity: 1
+							} },
+				hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}, format: '#'},
+				vAxis: {title: 'Million tonnes of carbon dioxide equivalent (MtCO2e)',  titleTextStyle: {color: '#333'}},
+				// trendlines: {n : {pointSize: 0}}
+			};
+			var regression_chart = new google.visualization.ScatterChart(document.getElementById('regression_div'));
+			regression_chart.draw(data, google.charts.Line.convertOptions(regression_options));
+		}
+	</script>
 	</head>
 	<body>
-	<div id="fh5co-offcanvas">
-		<a href="#" class="fh5co-close-offcanvas js-fh5co-close-offcanvas"><span><i class="icon-cross3"></i> <span>Close</span></span></a>
-		<div class="fh5co-bio">
-			<figure>
-				<img src="images/person1.jpg" alt="Free HTML5 Bootstrap Template" class="img-responsive">
-			</figure>
-			<h3 class="heading">About Me</h3>
-			<h2>Emily Tran Le</h2>
-			<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
-			<ul class="fh5co-social">
-				<li><a href="#"><i class="icon-twitter"></i></a></li>
-				<li><a href="#"><i class="icon-facebook"></i></a></li>
-				<li><a href="#"><i class="icon-instagram"></i></a></li>
-			</ul>
-		</div>
-
-		<div class="fh5co-menu">
-			<div class="fh5co-box">
-				<h3 class="heading">Categories</h3>
-				<ul>
-					<li><a href="#">Travel</a></li>
-					<li><a href="#">Style</a></li>
-					<li><a href="#">Photography</a></li>
-					<li><a href="#">Food &amp; Drinks</a></li>
-					<li><a href="#">Culture</a></li>
-				</ul>
-			</div>
-			<div class="fh5co-box">
-				<h3 class="heading">Search</h3>
-				<form action="#">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Type a keyword">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<!-- END #fh5co-offcanvas -->
 	<header id="fh5co-header">
-		
 		<div class="container-fluid">
-
 			<div class="row">
-				<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
-				<ul class="fh5co-social">
-					<li><a href="#"><i class="icon-twitter"></i></a></li>
-					<li><a href="#"><i class="icon-facebook"></i></a></li>
-					<li><a href="#"><i class="icon-instagram"></i></a></li>
-				</ul>
 				<div class="col-lg-12 col-md-12 text-center">
-					<h1 id="fh5co-logo"><a href="index.html">Magazine <sup>TM</sup></a></h1>
+					<h1 id="fh5co-logo"><a href="index.html">Portfolio</a></h1>
 				</div>
-
 			</div>
-		
 		</div>
 
 	</header>
@@ -126,102 +157,42 @@
 	<div class="container-fluid">
 		<div class="row fh5co-post-entry single-entry">
 			<article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
-				<figure class="animate-box">
-					<img src="images/single_1.jpg" alt="Image" class="img-responsive">
+				<figure class="animate-box fadeInUp animated">
+					<img src="images/greenhousegiants.jpg" alt="Image" class="img-responsive">
 				</figure>
-				<span class="fh5co-meta animate-box"><a href="single.html">Travel</a></span>
-				<h2 class="fh5co-article-title animate-box"><a href="single.html">My First Time Traveling in Vietnam</a></h2>
-				<span class="fh5co-meta fh5co-date animate-box">March 6th, 2016</span>
-				
+				<h2 class="fh5co-article-title animate-box"><a href="single.html">Greenhouse Gas Giants</a></h2>
 				<div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
 					<div class="row">
 						<div class="col-lg-8 cp-r animate-box">
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large <a href="#">language</a> ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
 
-							<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. </p>
+							All the visuals shown were generated using this
+							<a href="https://www.kaggle.com/datasets/konradb/greenhouse-gas-giants?select=emissions_high_granularity.csv">dataset</a> from Kaggle. The original dataset on Kaggle has 16 columns. The plots below visualize 5 columns from the dataset. The x-axis of all the plots is the column "year" and the y-axis is the emissions produced measured in Millions of tonnes of carbon dioxide equivalent (MtCO2e). There are four types of emission categories: fugitive methane, own fuel use, venting, and flaring. The data visualized is for the parent entity Chevron, emissions produces for it's reporting entity Chevron (each parent entity can have multiple reporting entities, which are entities acquired by the parent entity), and natural gas commodity (there are different types but the plots only show natural gas). In other words, the subset of the data is all the rows that satisfiy the following conditions: parent entity = Chevron, reporting entity = Chevron, and commodity = natural gas.
 
-							<p>She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						</div>
-						<div class="col-lg-4 animate-box">
-							<div class="fh5co-highlight right">
-								<h4>Highlight</h4>
-								<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia</p>
-							</div>
+							<div id="basic_div" style="width: 900px; height: 500px"></div>
+
+							<p>
+								The basic plot shows the emissions produced from each category per year. The sum of all emissions is the total operational emissions made each year. The line plot shows an increase in emissions for each category. Fugitive methane has the highest rate of increase and is consistently more than all the other categories. Own fuel use and venting have similar rate of change, but venting emissions being consistently more. Flaring emissions make up the smallest amount of emissions, there is a small upward trend as well.
+							</p>  
+
+							<div id="basic_log_div" style="width: 900px; height: 500px"></div>
+
+							<p>
+								To be able to see the change more clearly, specially for the emission types that make up a small amount, the plot above uses a log scale for the Y-axis. We can see the trend with flaring emissions more clearly, and we see that it follows the same general trend as the other emission types but at a smaller rate. The first plot does not show the exact changes in the flaring emissions because it is very small compared to the other types, using a log scale allows us to see the trend better.
+							</p>
+
+							<div id="stacked_div" style="width: 900px; height: 500px"></div>
+
+							<p>
+								The plot above is a stacked area plot. It allows us to see the total operational emissions produced each year. In the previous plots we were only able to see the emissions of each type individually and the plot above provides more information about emissions produced annually.
+							</p>
+
+							<div id="regression_div" style="width: 900px; height: 500px"></div>
+
+							<p>
+								The plot above is a straight line approximation of the data. We can see an approximation of the rate at which the emissions produced for each change annually. Fugitive methane emissions change at the fastest rate which is reflected in the plot, the line for that category is the steepest. Flaring emissions change at the smallest rate, line is almost parallel to the x-axis.
+							</p>
 						</div>
 					</div>
-
-					<div class="row rp-b">
-						<div class="col-md-12 animate-box">
-							<blockquote>
-								<p>&ldquo;She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove &rdquo; <cite>&mdash; Jean Smith</cite></p>
-							</blockquote>
-						</div>
-					</div>
-
-					<div class="row rp-b">
-						<div class="col-lg-6 col-md-12 animate-box">
-							<figure>
-								<img src="images/pic_1.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co" class="img-responsive">
-								<figcaption>This is a sweet image caption. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</figcaption>
-							</figure>
-						</div>
-						<div class="col-lg-6 col-md-12 cp-l animate-box">
-							<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. </p>
-
-							<p>She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large <a href="#">language</a> ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-						</div>
-					</div>
-
-					<div class="row rp-b">
-						<div class="col-lg-6 col-lg-push-6 col-md-12 col-md-push-0 animate-box">
-							<figure>
-								<img src="images/pic_4.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co" class="img-responsive">
-								<figcaption>This is a sweet image caption. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</figcaption>
-							</figure>
-						</div>
-						<div class="col-lg-6 col-lg-pull-6 col-md-12 col-md-pull-0 cp-r animate-box">
-							<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. </p>
-
-							<p>She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large <a href="#">language</a> ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-12 animate-box">
-							<h2>Pointing has no control about the blind texts</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large <a href="#">language</a> ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-							<p>She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						</div>
-						<div class="col-md-4 animate-box">
-							<figure>
-								<img src="images/pic_5.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co" class="img-responsive">
-								<figcaption>This is a sweet image caption. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</figcaption>
-							</figure>
-						</div>
-						<div class="col-md-4 animate-box">
-							<figure>
-								<img src="images/pic_6.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co" class="img-responsive">
-								<figcaption>This is a sweet image caption. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</figcaption>
-							</figure>
-						</div>
-						<div class="col-md-4 animate-box">
-							<figure>
-								<img src="images/pic_7.jpg" alt="Free HTML5 Bootstrap Template by FREEHTML5.co" class="img-responsive">
-								<figcaption>This is a sweet image caption. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</figcaption>
-							</figure>
-						</div>
-						<div class="col-md-12 animate-box">
-							<h2>Pointing has no control about the blind texts</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large <a href="#">language</a> ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-							<p>She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
-						</div>
-					</div>
-					
-					
 				</div>
 			</article>
 		</div>
